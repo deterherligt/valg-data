@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Partistemmefordeling",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "Valgart",
+    "Valgdag",
+    "FrigivelsesTidspunktUTC",
+    "Storkreds",
+    "Storkredsnummer",
+    "Opstillingskreds",
+    "OpstillingskredsDagiId",
+    "IndenforParti"
+  ],
+  "properties": {
+    "Valgart": {
+      "description": "Navn på valget fx.: Folketingsvalg.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/ExportIndividualElectionDiscriminator"
+        }
+      ]
+    },
+    "Valgdag": {
+      "type": "string",
+      "description": "Dato for valget",
+      "format": "date",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4})$"
+    },
+    "FrigivelsesTidspunktUTC": {
+      "type": "string",
+      "description": "UTC DateTime for filens oprettelse.",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    },
+    "Storkreds": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Navn på storkredsen."
+    },
+    "Storkredsnummer": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Storkredsnummer for storkredsen.",
+      "format": "int32"
+    },
+    "Opstillingskreds": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Navn på opstillingskredsen"
+    },
+    "OpstillingskredsDagiId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "DAGI id for opstillingskredsen"
+    },
+    "IndenforParti": {
+      "type": "array",
+      "description": "Indeholder en liste af Parti objekter.",
+      "items": {
+        "$ref": "#/definitions/Parti"
+      }
+    }
+  },
+  "definitions": {
+    "ExportIndividualElectionDiscriminator": {
+      "type": "string",
+      "description": "",
+      "x-enumNames": [
+        "EuropeanParliamentElection",
+        "GeneralElection",
+        "RegionalElection",
+        "MunicipalElection",
+        "Referendum"
+      ],
+      "enum": [
+        "Europa-Parlamentsvalg",
+        "Folketingsvalg",
+        "Regionsrådsvalg",
+        "Kommunalvalg",
+        "Folkeafstemning"
+      ]
+    },
+    "Parti": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "PartiId",
+        "PartiNavn",
+        "Bogstavbetegnelse",
+        "Opstillingsform",
+        "PersonligeStemmer",
+        "Stemmer",
+        "Kandidater"
+      ],
+      "properties": {
+        "PartiId": {
+          "type": "string",
+          "description": "Id'et på partiet",
+          "format": "guid"
+        },
+        "PartiNavn": {
+          "type": "string",
+          "description": "Navn på partiet registreret på partimeddelelsen"
+        },
+        "Bogstavbetegnelse": {
+          "type": "string",
+          "description": "Partibogstav registreret på partimeddelelsen"
+        },
+        "Opstillingsform": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Værdien er en af følgende: Partiliste, Sideordnet, Prioriteret sideordnet eller Kredsvis."
+        },
+        "PersonligeStemmer": {
+          "type": "boolean",
+          "description": "Viser om partiet bruger personlige stemmer"
+        },
+        "Stemmer": {
+          "type": "integer",
+          "description": "Partistemmer, der skal fordeles ud til kandidaterne",
+          "format": "int32"
+        },
+        "Kandidater": {
+          "type": "array",
+          "description": "Indeholder en liste af Kandidat objekter.",
+          "items": {
+            "$ref": "#/definitions/Kandidat"
+          }
+        }
+      }
+    },
+    "Kandidat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id",
+        "Stemmeseddelnavn",
+        "PersonligeStemmer",
+        "TildeltePartistemmer"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string",
+          "description": "Id'et på kandidaten",
+          "format": "guid"
+        },
+        "Stemmeseddelnavn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Stemmeseddelnavnet på kandidaten"
+        },
+        "PersonligeStemmer": {
+          "type": "integer",
+          "description": "Kandidatens personlige stemmer",
+          "format": "int32"
+        },
+        "TildeltePartistemmer": {
+          "type": "integer",
+          "description": "Partistemmer som er blevet tildelt til denne kandidat",
+          "format": "int32"
+        }
+      }
+    }
+  }
+}

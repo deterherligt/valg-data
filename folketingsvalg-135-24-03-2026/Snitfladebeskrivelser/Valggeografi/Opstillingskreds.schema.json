@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Opstillingskreds",
+  "type": "array",
+  "items": {
+    "$ref": "#/definitions/Opstillingskreds"
+  },
+  "definitions": {
+    "Opstillingskreds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "OpdateretUtc",
+        "OprettetUtc",
+        "Dagi_id",
+        "Nummer",
+        "Navn",
+        "Valgkredsnummer",
+        "Kredskommunekode",
+        "Storkredskode",
+        "Type"
+      ],
+      "properties": {
+        "OpdateretUtc": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Tidspunktet entiteten blev opdateret i Valg-systemet. Præsenteret i UTC.",
+          "format": "date-time",
+          "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+        },
+        "OprettetUtc": {
+          "type": "string",
+          "description": "Tidspunktet entiteten blev oprettet i Valg-systemet. Præsenteret i UTC.",
+          "format": "date-time",
+          "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+        },
+        "Dagi_id": {
+          "type": "string",
+          "description": "Opstillingskreds Id i DAGI"
+        },
+        "Nummer": {
+          "type": "integer",
+          "description": "Opstillingskredsnummer - unikt i omfang af alle opstillingskreds",
+          "format": "int32"
+        },
+        "Navn": {
+          "type": "string",
+          "description": "Navn på opstillingskreds"
+        },
+        "Valgkredsnummer": {
+          "type": "integer",
+          "description": "Valgkredsnummer - unikt i omfang af storkredse",
+          "format": "int32"
+        },
+        "Kredskommunekode": {
+          "type": "integer",
+          "description": "Koden på kommunen",
+          "format": "int32"
+        },
+        "Storkredskode": {
+          "type": "integer",
+          "description": "Storkredsnummer relateret til opstillingskredsen",
+          "format": "int32"
+        },
+        "Type": {
+          "description": "Valggeografi objekt type",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Type"
+            }
+          ]
+        }
+      }
+    },
+    "Type": {
+      "type": "string",
+      "enum": [
+        "Afstemningsområde",
+        "Region",
+        "Kommune",
+        "Landsdel",
+        "Opstillingskreds",
+        "Storkreds"
+      ]
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "EV-Kandidatdata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "Valgforbund",
+    "Kandidatlister",
+    "Valgdag",
+    "Valgart",
+    "FrigivelsesTidspunktUTC",
+    "OpdateringsTidspunktUTC"
+  ],
+  "properties": {
+    "Valgdag": {
+      "type": "string",
+      "description": "Dato for valget",
+      "format": "date",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4})$"
+    },
+    "Valgart": {
+      "description": "Navn på valget fx.: Folkeafstemning",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Valgart"
+        }
+      ]
+    },
+    "FrigivelsesTidspunktUTC": {
+      "type": "string",
+      "description": "UTC DateTime for filens oprettelse.",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    },
+    "OpdateringsTidspunktUTC": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    },
+    "Valgforbund": {
+      "type": "array",
+      "description": "Indeholder en liste af Valgforbund objekter.",
+      "items": {
+        "$ref": "#/definitions/Valgforbund"
+      }
+    },
+    "Kandidatlister": {
+      "type": "array",
+      "description": "Indeholder en liste af Kandidatliste objekter.",
+      "items": {
+        "$ref": "#/definitions/Kandidatliste"
+      }
+    }
+  },
+  "definitions": {
+    "Valgart": {
+      "type": "string",
+      "enum": [
+        "Europa-Parlamentsvalg",
+        "Folketingsvalg",
+        "Regionsrådsvalg",
+        "Kommunalvalg",
+        "Folkeafstemning"
+      ]
+    },
+    "Valgforbund": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ValgforbundId",
+        "Kandidatlister"
+      ],
+      "properties": {
+        "ValgforbundId": {
+          "type": "string",
+          "description": "Id på valgforbund",
+          "format": "guid"
+        },
+        "Kandidatlister": {
+          "type": "array",
+          "description": "Indeholder en liste af referencer (Id'er) til kandidatlister der indgår i valgforbundet",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Kandidatliste": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "KandidatlisteId",
+        "Stemmeseddelsplacering",
+        "Bogstavbetegnelse",
+        "Navn",
+        "Opstillingsform",
+        "Kandidater"
+      ],
+      "properties": {
+        "KandidatlisteId": {
+          "type": "string",
+          "description": "Id på kandidatlisten",
+          "format": "guid"
+        },
+        "Stemmeseddelsplacering": {
+          "type": "integer",
+          "description": "Viser hvilken position listen har på stemmesedlen",
+          "format": "int32"
+        },
+        "Bogstavbetegnelse": {
+          "type": "string",
+          "description": "Kandidatlistens bogstav"
+        },
+        "Navn": {
+          "type": "string",
+          "description": "Kandidatlistens navn"
+        },
+        "Opstillingsform": {
+          "description": "Viser om listens opstillingsform er Sideordnet eller Partiliste.",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Opstillingsform"
+            }
+          ]
+        },
+        "Kandidater": {
+          "type": "array",
+          "description": "Indeholder en liste af Kandidat objekter.",
+          "items": {
+            "$ref": "#/definitions/Kandidat"
+          }
+        }
+      }
+    },
+    "Opstillingsform": {
+      "type": "string",
+      "enum": [
+        "Sideordnet",
+        "Partiliste"
+      ]
+    },
+    "Kandidat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Stemmeseddelsplacering",
+        "Id",
+        "Navn",
+        "Stemmeseddelnavn",
+        "Stilling"
+      ],
+      "properties": {
+        "Stemmeseddelsplacering": {
+          "type": "integer",
+          "description": "Kandidatens position på dens kandidatliste",
+          "format": "int32"
+        },
+        "Id": {
+          "type": "string",
+          "description": "Identifikations-nummeret på kandidaten",
+          "format": "guid"
+        },
+        "Navn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens fulde navn"
+        },
+        "Stemmeseddelnavn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens navn på stemmesedlen"
+        },
+        "Stilling": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens stilling"
+        }
+      }
+    }
+  }
+}

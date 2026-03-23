@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "KVRV-Kandidatdata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "Valgforbund",
+    "Kandidatlister",
+    "Valgdag",
+    "Valgart",
+    "FrigivelsesTidspunktUTC",
+    "OpdateringsTidspunktUTC"
+  ],
+  "properties": {
+    "Valgdag": {
+      "type": "string",
+      "description": "Dato for valget",
+      "format": "date",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4})$"
+    },
+    "Valgart": {
+      "description": "Navn på valget fx.: Folkeafstemning",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Valgart"
+        }
+      ]
+    },
+    "FrigivelsesTidspunktUTC": {
+      "type": "string",
+      "description": "UTC DateTime for filens oprettelse.",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    },
+    "OpdateringsTidspunktUTC": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    },
+    "Region": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Navn på region."
+    },
+    "RegionDagiId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "DAGI id for region."
+    },
+    "Kommune": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Navn på kommune."
+    },
+    "KommuneDagiId": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "DAGI id for kommunen."
+    },
+    "Valgforbund": {
+      "type": "array",
+      "description": "Indeholder en liste af Valgforbund objekter.",
+      "items": {
+        "$ref": "#/definitions/Valgforbund"
+      }
+    },
+    "Kandidatlister": {
+      "type": "array",
+      "description": "Indeholder en liste af Kandidatliste objekter.",
+      "items": {
+        "$ref": "#/definitions/Kandidatliste"
+      }
+    }
+  },
+  "definitions": {
+    "Valgart": {
+      "type": "string",
+      "enum": [
+        "Europa-Parlamentsvalg",
+        "Folketingsvalg",
+        "Regionsrådsvalg",
+        "Kommunalvalg",
+        "Folkeafstemning"
+      ]
+    },
+    "Valgforbund": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ValgforbundId",
+        "Navn",
+        "KandidatlisteId"
+      ],
+      "properties": {
+        "ValgforbundId": {
+          "type": "string",
+          "description": "Id på valgforbund",
+          "format": "guid"
+        },
+        "Navn": {
+          "type": "string",
+          "description": "Valgforbunds navn"
+        },
+        "KandidatlisteId": {
+          "type": "array",
+          "description": "Indeholder en liste af referencer (Id'er) der indgår i valgforbundet",
+          "items": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      }
+    },
+    "Kandidatliste": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "KandidatlisteId",
+        "Stemmeseddelsplacering",
+        "Bogstavbetegnelse",
+        "Navn",
+        "Opstillingsform",
+        "Kandidater"
+      ],
+      "properties": {
+        "KandidatlisteId": {
+          "type": "string",
+          "description": "Id på kandidatlisten."
+        },
+        "Stemmeseddelsplacering": {
+          "type": "integer",
+          "description": "Viser hvilken position listen har på stemmesedlen.",
+          "format": "int32"
+        },
+        "Bogstavbetegnelse": {
+          "type": "string",
+          "description": "Kandidatlistens bogstav."
+        },
+        "Navn": {
+          "type": "string",
+          "description": "Kandidatlistens navn."
+        },
+        "Opstillingsform": {
+          "description": "Viser om listens opstillingsform er Sideordnet eller Partiliste.",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Opstillingsform"
+            }
+          ]
+        },
+        "Kandidater": {
+          "type": "array",
+          "description": "Indeholder en liste af Kandidat objekter.",
+          "items": {
+            "$ref": "#/definitions/Kandidat"
+          }
+        }
+      }
+    },
+    "Opstillingsform": {
+      "type": "string",
+      "enum": [
+        "Sideordnet",
+        "Partiliste"
+      ]
+    },
+    "Kandidat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Stemmeseddelsplacering",
+        "Id",
+        "Navn",
+        "Stemmeseddelnavn",
+        "Stilling",
+        "BopaelPaaStemmeseddel"
+      ],
+      "properties": {
+        "Stemmeseddelsplacering": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Kandidatens position på kandidatlisten.",
+          "format": "int32"
+        },
+        "Id": {
+          "type": "string",
+          "description": "Identifikationsnummeret på kandidaten."
+        },
+        "Navn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens fulde navn"
+        },
+        "Stemmeseddelnavn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens navn på stemmesedlen"
+        },
+        "Stilling": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens stilling"
+        },
+        "BopaelPaaStemmeseddel": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens geografiske beskrivelse."
+        }
+      }
+    }
+  }
+}

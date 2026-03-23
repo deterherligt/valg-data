@@ -1,0 +1,310 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "FV-Kandidatdata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "Storkreds",
+    "Storkredsnummer",
+    "IndenforParti",
+    "UdenforParti",
+    "Valgdag",
+    "Valgart",
+    "FrigivelsesTidspunktUTC",
+    "OpdateringsTidspunktUTC"
+  ],
+  "properties": {
+    "Valgdag": {
+      "type": "string",
+      "description": "Dato for valget",
+      "format": "date",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4})$"
+    },
+    "Valgart": {
+      "description": "Navn på valget fx.: Folkeafstemning",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Valgart"
+        }
+      ]
+    },
+    "FrigivelsesTidspunktUTC": {
+      "type": "string",
+      "description": "UTC DateTime for filens oprettelse.",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    },
+    "OpdateringsTidspunktUTC": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    },
+    "Storkreds": {
+      "type": "string",
+      "description": "Navn på storkredsen"
+    },
+    "Storkredsnummer": {
+      "type": "string",
+      "description": "Storkredsnummer"
+    },
+    "IndenforParti": {
+      "type": "array",
+      "description": "Indeholder en liste af IndenforParti objekter.",
+      "items": {
+        "$ref": "#/definitions/Parti"
+      }
+    },
+    "UdenforParti": {
+      "type": "array",
+      "description": "Indeholder en liste af Kandidat objekter.",
+      "items": {
+        "$ref": "#/definitions/KandidatUdenforParti"
+      }
+    }
+  },
+  "definitions": {
+    "Valgart": {
+      "type": "string",
+      "enum": [
+        "Europa-Parlamentsvalg",
+        "Folketingsvalg",
+        "Regionsrådsvalg",
+        "Kommunalvalg",
+        "Folkeafstemning"
+      ]
+    },
+    "Parti": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "PartiId",
+        "Stemmeseddelsplacering",
+        "Partibogstav",
+        "Partinavn",
+        "PersonligeStemmer",
+        "Kandidater"
+      ],
+      "properties": {
+        "PartiId": {
+          "type": "string",
+          "description": "Id for partiet",
+          "format": "guid"
+        },
+        "Stemmeseddelsplacering": {
+          "type": "integer",
+          "description": "Viser hvilken position partiet har på stemmesedlen",
+          "format": "int32"
+        },
+        "Partibogstav": {
+          "type": "string",
+          "description": "Partibogstav registreret på partimeddelelsen"
+        },
+        "Partinavn": {
+          "type": "string",
+          "description": "Navn på partiet registreret på partimeddelelsen"
+        },
+        "PersonligeStemmer": {
+          "type": "boolean",
+          "description": "Viser om partilisten bruger personlige stemmer"
+        },
+        "Kandidater": {
+          "type": "array",
+          "description": "Indeholder en liste af Kandidat objekter.",
+          "items": {
+            "$ref": "#/definitions/KandidatIndenforParti"
+          }
+        }
+      }
+    },
+    "KandidatIndenforParti": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Opstillingskredse",
+        "Id",
+        "Navn",
+        "Stemmeseddelnavn",
+        "Stilling",
+        "AlfabetiskSorteretPlacering"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string",
+          "description": "Identifikationsnummer på kandidaten",
+          "format": "guid"
+        },
+        "Navn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens fulde navn."
+        },
+        "Stemmeseddelnavn": {
+          "type": "string",
+          "description": "Kandidatens navn på stemmesedlen"
+        },
+        "Stilling": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens stilling"
+        },
+        "PartiListePlacering": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Kandidatens nummer på partilisten, hvis kandidaten opstiller for et parti med kredsvis opstilling og anmeldt som partiliste",
+          "format": "int32"
+        },
+        "AlfabetiskSorteretPlacering": {
+          "type": "integer",
+          "description": "Kandidatens alfabetisk sorteret placering på partiet",
+          "format": "int32"
+        },
+        "Opstillingskredse": {
+          "type": "array",
+          "description": "Indeholder en liste af Opstillingskreds objekter.",
+          "items": {
+            "$ref": "#/definitions/OpstillingskredsForKandidatIndenforParti"
+          }
+        }
+      }
+    },
+    "OpstillingskredsForKandidatIndenforParti": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Opstillingsform",
+        "Opstillingskreds",
+        "OpstillingskredsDagiId",
+        "OpstilletIKreds",
+        "KandidatsPlacering"
+      ],
+      "properties": {
+        "Opstillingskreds": {
+          "type": "string",
+          "description": "Navn på opstillingskredsen"
+        },
+        "OpstillingskredsDagiId": {
+          "type": "string",
+          "description": "DAGI id for opstillingskredsen"
+        },
+        "OpstilletIKreds": {
+          "type": "boolean",
+          "description": "Viser om kandidaten stiller op i den givne opstillingskreds"
+        },
+        "KandidatsPlacering": {
+          "type": "integer",
+          "description": "Kandidatens position på stemmesedlen i den givne opstillingskreds",
+          "format": "int32"
+        },
+        "Opstillingsform": {
+          "description": "Partilistens organisation i opstillingskredsen.",
+          "oneOf": [
+            {
+              "$ref": "#/definitions/Opstillingsform"
+            }
+          ]
+        }
+      }
+    },
+    "Opstillingsform": {
+      "type": "string",
+      "enum": [
+        "Kredsvis",
+        "Sideordnet",
+        "Prioriteret sideordnet",
+        "Partiliste"
+      ]
+    },
+    "KandidatUdenforParti": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Opstillingskredse",
+        "Id",
+        "Navn",
+        "Stemmeseddelnavn",
+        "Stilling",
+        "AlfabetiskSorteretPlacering"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string",
+          "description": "Identifikationsnummer på kandidaten",
+          "format": "guid"
+        },
+        "Navn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens fulde navn."
+        },
+        "Stemmeseddelnavn": {
+          "type": "string",
+          "description": "Kandidatens navn på stemmesedlen"
+        },
+        "Stilling": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Kandidatens stilling"
+        },
+        "PartiListePlacering": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Kandidatens nummer på partilisten, hvis kandidaten opstiller for et parti med kredsvis opstilling og anmeldt som partiliste",
+          "format": "int32"
+        },
+        "AlfabetiskSorteretPlacering": {
+          "type": "integer",
+          "description": "Kandidatens alfabetisk sorteret placering på partiet",
+          "format": "int32"
+        },
+        "Opstillingskredse": {
+          "type": "array",
+          "description": "Indeholder en liste af Opstillingskreds objekter.",
+          "items": {
+            "$ref": "#/definitions/OpstillingskredsForKandidatUdenforParti"
+          }
+        }
+      }
+    },
+    "OpstillingskredsForKandidatUdenforParti": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Opstillingskreds",
+        "OpstillingskredsDagiId",
+        "OpstilletIKreds",
+        "KandidatsPlacering"
+      ],
+      "properties": {
+        "Opstillingskreds": {
+          "type": "string",
+          "description": "Navn på opstillingskredsen"
+        },
+        "OpstillingskredsDagiId": {
+          "type": "string",
+          "description": "DAGI id for opstillingskredsen"
+        },
+        "OpstilletIKreds": {
+          "type": "boolean",
+          "description": "Viser om kandidaten stiller op i den givne opstillingskreds"
+        },
+        "KandidatsPlacering": {
+          "type": "integer",
+          "description": "Kandidatens position på stemmesedlen i den givne opstillingskreds",
+          "format": "int32"
+        }
+      }
+    }
+  }
+}

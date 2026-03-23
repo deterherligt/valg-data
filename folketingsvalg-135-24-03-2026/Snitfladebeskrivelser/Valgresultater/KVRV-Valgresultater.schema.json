@@ -1,0 +1,362 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "KVRV-Valgresultater",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "Kandidatlister",
+    "GodkendelsesDatoUTC",
+    "Valgdag",
+    "Valgart",
+    "FrigivelsesTidspunktUTC",
+    "Storkreds",
+    "Storkredsnummer",
+    "Opstillingskreds",
+    "OpstillingskredsDagiId",
+    "Kommune",
+    "Kommunekode",
+    "AfstemningsområdeNummer",
+    "AfstemningsområdeDagiId",
+    "Afstemningsområde",
+    "UgyldigeFremmødteStemmerÅrsager",
+    "UgyldigeBrevstemmerÅrsager",
+    "Resultatart",
+    "AfgivneStemmer",
+    "GyldigeStemmer",
+    "UgyldigeStemmerUdoverBlanke",
+    "BlankeUgyldigeFremmødteStemmer",
+    "BlankeUgyldigeBrevstemmer",
+    "AfgivneStemmerDifferenceFraForrigeValg",
+    "GyldigeStemmerDifferenceFraForrigeValg",
+    "UgyldigeStemmerDifferenceFraForrigeValg",
+    "BlankeStemmerDifferenceFraForrigeValg",
+    "AntalStemmeberettigedeVælgereDifferenceFraForrigeValg",
+    "AntalStemmeberettigedeVælgere"
+  ],
+  "properties": {
+    "Valgdag": {
+      "type": "string",
+      "description": "Dato for valget",
+      "format": "date",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4})$"
+    },
+    "Valgart": {
+      "description": "Navn på valget fx.: Folketingsvalg.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Valgart"
+        }
+      ]
+    },
+    "FrigivelsesTidspunktUTC": {
+      "type": "string",
+      "description": "UTC DateTime for filens oprettelse.",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    },
+    "Storkreds": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Navn på storkredsen."
+    },
+    "Storkredsnummer": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Storkredsnummer for storkredsen.",
+      "format": "int32"
+    },
+    "Opstillingskreds": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "Navn på opstillingskredsen"
+    },
+    "OpstillingskredsDagiId": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "DAGI id for opstillingskredsen",
+      "format": "int32"
+    },
+    "Kommune": {
+      "type": "string",
+      "description": "Navn på kommunen"
+    },
+    "Kommunekode": {
+      "type": "integer",
+      "description": "Kode på kommunen",
+      "format": "int32"
+    },
+    "AfstemningsområdeNummer": {
+      "type": "integer",
+      "description": "Nummeret på afstemningsområdet",
+      "format": "int32"
+    },
+    "AfstemningsområdeDagiId": {
+      "type": "integer",
+      "description": "Afstemningsområde Id i DAGI",
+      "format": "int32"
+    },
+    "Afstemningsområde": {
+      "type": "string",
+      "description": "Navn på valgområde"
+    },
+    "UgyldigeFremmødteStemmerÅrsager": {
+      "type": "array",
+      "description": "Ugyldige fremmødte stemme årsager.",
+      "items": {
+        "$ref": "#/definitions/InvalidVoteReasonDto"
+      }
+    },
+    "UgyldigeBrevstemmerÅrsager": {
+      "type": "array",
+      "description": "Ugyldige brevstemmer årsager.",
+      "items": {
+        "$ref": "#/definitions/InvalidVoteReasonDto"
+      }
+    },
+    "Resultatart": {
+      "description": "{Streng af 3 forskellige typer: ['IngenResultater - Resultaterne indeholder kun information om stemmeberettigede vælgere', 'ForeløbigOptælling -  Resultaterne er fra den foreløbige optælling', 'Fintælling - Resultaterne er fra fintælling' ]",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Resultatart"
+        }
+      ]
+    },
+    "AfgivneStemmer": {
+      "type": "integer",
+      "description": "Summen af gyldige, ugyldige og blanke stemmer",
+      "format": "int32"
+    },
+    "GyldigeStemmer": {
+      "type": "integer",
+      "description": "Summen af stemmer på alle partier",
+      "format": "int32"
+    },
+    "UgyldigeStemmerUdoverBlanke": {
+      "type": "integer",
+      "description": "Summen af ugyldige stemmer udover blanke",
+      "format": "int32"
+    },
+    "BlankeUgyldigeFremmødteStemmer": {
+      "type": "integer",
+      "description": "Summen af blanke fremmødte stemmer",
+      "format": "int32"
+    },
+    "BlankeUgyldigeBrevstemmer": {
+      "type": "integer",
+      "description": "Summen af blanke brevstemmer",
+      "format": "int32"
+    },
+    "AfgivneStemmerDifferenceFraForrigeValg": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Differencen af afgivne stemmer for det forrige valg",
+      "format": "int32"
+    },
+    "GyldigeStemmerDifferenceFraForrigeValg": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Differencen af gyldige stemmer for det forrige valg",
+      "format": "int32"
+    },
+    "UgyldigeStemmerDifferenceFraForrigeValg": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Differencen af ugyldige stemmer for det forrige valg",
+      "format": "int32"
+    },
+    "BlankeStemmerDifferenceFraForrigeValg": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Differencen af blanke stemmer for det forrige valg",
+      "format": "int32"
+    },
+    "AntalStemmeberettigedeVælgereDifferenceFraForrigeValg": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Differencen af antallet af stemmeberettigede vælgere fra forrige valg",
+      "format": "int32"
+    },
+    "AntalStemmeberettigedeVælgere": {
+      "type": "integer",
+      "description": "Antallet af stemmeberettigede vælgere",
+      "format": "int32"
+    },
+    "Kandidatlister": {
+      "type": "array",
+      "description": "Indeholder en liste af Kandidatliste objekter.",
+      "items": {
+        "$ref": "#/definitions/CandidateListResultExportDto"
+      }
+    },
+    "GodkendelsesDatoUTC": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": "UTC-tidspunkt for godkendelse af resultaterne",
+      "format": "date-time",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\\d{4}) (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$"
+    }
+  },
+  "definitions": {
+    "Valgart": {
+      "type": "string",
+      "enum": [
+        "Europa-Parlamentsvalg",
+        "Folketingsvalg",
+        "Regionsrådsvalg",
+        "Kommunalvalg",
+        "Folkeafstemning"
+      ]
+    },
+    "InvalidVoteReasonDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id",
+        "Navn",
+        "Paragraf",
+        "Antal"
+      ],
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "description": "Identifikationsnummer på ugyldighedsårsagen",
+          "format": "int32"
+        },
+        "Navn": {
+          "type": "string",
+          "description": "Navnet på ugyldighedsårsagen"
+        },
+        "Paragraf": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Paragrafnumre som ugyldighedsårsagen omhandler"
+        },
+        "Antal": {
+          "type": "integer",
+          "description": "Antal ugyldige stemmer med årsagen",
+          "format": "int32"
+        }
+      }
+    },
+    "Resultatart": {
+      "type": "string",
+      "enum": [
+        "ForeløbigOptælling",
+        "Fintælling",
+        "IngenResultater"
+      ]
+    },
+    "CandidateListResultExportDto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "KandidatlisteId",
+        "Navn",
+        "Bogstavbetegnelse",
+        "Stemmer",
+        "Listestemmer",
+        "StemmerDifferenceFraForrigeValg",
+        "Kandidater"
+      ],
+      "properties": {
+        "KandidatlisteId": {
+          "type": "string",
+          "description": "Id'et på kandidatlisten",
+          "format": "guid"
+        },
+        "Navn": {
+          "type": "string",
+          "description": "Navn på kandidatlisten"
+        },
+        "Bogstavbetegnelse": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Bogstavbetegnelsen registreret på kandidatlisten"
+        },
+        "Stemmer": {
+          "type": "integer",
+          "description": "Totalen udregnet fra fremmødte stemmer og brevstemmer",
+          "format": "int32"
+        },
+        "Listestemmer": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Antallet af stemmer specifikt på listen",
+          "format": "int32"
+        },
+        "StemmerDifferenceFraForrigeValg": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Differencen fra det forrige valg",
+          "format": "int32"
+        },
+        "Kandidater": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "Indeholder en liste af kandidat objekter for kandidater opstillet for den pågældende liste.",
+          "items": {
+            "$ref": "#/definitions/Kandidat"
+          }
+        }
+      }
+    },
+    "Kandidat": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id",
+        "Stemmeseddelnavn",
+        "Stemmer"
+      ],
+      "properties": {
+        "Id": {
+          "type": "string",
+          "description": "Identifikationsnummer på kandidaten",
+          "format": "guid"
+        },
+        "Stemmeseddelnavn": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "description": "Stemmeseddelnavnet på kandidaten"
+        },
+        "Stemmer": {
+          "type": "integer",
+          "description": "Totalen udregnet fra fremmødte stemmer og brevstemmer",
+          "format": "int32"
+        }
+      }
+    }
+  }
+}
